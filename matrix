@@ -22,7 +22,7 @@ transpose(){
   while read -a line; do
     for ((i=0; i < "${#line[@]}"; i++))
      do
-        a[$i]="${a[$i]} ${line[$i]}"
+        a[$i]="${a[$i]}\t${line[$i]}"
     done
   done < "${1:-/dev/stdin}"
 
