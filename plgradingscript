@@ -127,8 +127,8 @@ function passed(){
 function result(){
   val=$?
   pts=$2
-  if [ $# -lt 2 ] 
-  then 
+  if [ $# -lt 2 ]
+  then
     pts=1
   fi
   if [ $val -eq 0 ]
@@ -147,7 +147,7 @@ function comment(){
   echo -e "# $@"
   [ $nocolor -eq 0 ] || echo -ne "\033[0m"
 }
-  
+
 unit_count=0
 function unit(){
   ((unit_count++))
@@ -196,7 +196,7 @@ tmp4="$(mktemp --tmpdir p1grading_XXXXX)"
 unit "error messages"
 
 $(./matrix dims "$tmp1" "$tmp1" 1>"$tmp2" 2>"$tmp3")
-[ $? -ne 0 ] && [ -s "$tmp3" ] && [ ! -s "$tmp2" ] 
+[ $? -ne 0 ] && [ -s "$tmp3" ] && [ ! -s "$tmp2" ]
 result "too many args to matrix dims" 1
 
 $(./matrix add  1>"$tmp2" 2>"$tmp3")
@@ -237,7 +237,7 @@ do
   (( rows = RANDOM % 50 + 51 ))
   (( cols = RANDOM % 50 + 51 ))
   dims="$(generate $rows $cols 100 | ./matrix dims)"
-  
+
   [[ "$dims" == "$rows $cols" ]]
   result "Stdin: (\"$dims\" == \"$rows $cols\")" 3
 done
@@ -248,9 +248,9 @@ do
   (( cols = RANDOM % 50 + 51 ))
 
   generate $rows $cols 100 > "$tmp1"
-  
+
   dims="$(./matrix dims $tmp1)"
-  
+
   [[ "$dims" == "$rows $cols" ]]
   result "File input: (\"$dims\" == \"$rows $cols\")" 3
 done
@@ -278,7 +278,7 @@ m1="-93	-92	29	-45	-55	-87	-36	39	-88	71	7	-69	52	45	-22
 21	-24	-38	92	-43	98	-14	35	39	-65	-20	65	65	19	-81
 79	-32	62	-93	89	19	-83	-47	45	20	93	49	43	73	80
 24	81	19	-15	48	-46	-23	-63	65	2	75	-16	1	-98	14
--40	-68	-89	-10	90	29	3	-15	58	86	-85	36	-55	31	-79" 
+-40	-68	-89	-10	90	29	3	-15	58	86	-85	36	-55	31	-79"
 
 m2="-93	50	-61	52	55	23	-67	65	-49	-45	-91	31	-12	0	10	80	21	79	24	-40
 -92	-27	2	-97	77	25	14	-32	23	-45	61	98	98	60	-26	17	-24	-32	81	-68
@@ -300,6 +300,8 @@ echo "$m1" > "$tmp1"
 echo "$m2" > "$tmp2"
 
 [[ "$m1" == "$(./matrix transpose $tmp2)" ]] && [[ "$m2" == "$(./matrix transpose $tmp1)" ]]
+echo $m1
+echo $m2
 result "m1 == T(m2) and T(m1) == m2" 10
 
 ###############################################################################
@@ -404,7 +406,7 @@ m1="$(generate 10 10 100)"
 m2="$(generate 10 10 100)"
 echo "$m1" > "$tmp1"
 echo "$m2" > "$tmp2"
-[[ "$(./matrix add $tmp1 $tmp2)" == "$(./matrix add $tmp2 $tmp1)" ]]  
+[[ "$(./matrix add $tmp1 $tmp2)" == "$(./matrix add $tmp2 $tmp1)" ]]
 result "A + B  == B + A"
 
 m1="68	86	-22	95	-97	44	68	-98	70	-65	69	94	-5	-84	3	83	71	31	-10	0

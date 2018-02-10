@@ -22,7 +22,7 @@ transpose(){
   while read -a line; do
     for ((i=0; i < "${#line[@]}"; i++))
      do
-        a[$i]="${a[$i]}\t${line[$i]}"
+        a[$i]="${a[$i]}\t${line[$i]}\n"
     done
   done < "${1:-/dev/stdin}"
 
@@ -176,6 +176,20 @@ then
     then
       echo "ERROR: Argument count is 2 but file named by argument either argument is not readable" >&2
       exit 4
+    fi
+
+    dims $MATRIX_LEFT
+    left_rows=$rows
+    left_cols=$cols
+
+    dims $MATRIX_RIGHT
+    right_rows=$rows
+    right_cols=$cols
+
+    if [ $left_rows -ne $right_rows ] || [ $left_cols -ne $right_cols ]
+    then
+      echo "ERROR: Incompatible matrix dimensions" >&2
+      exit 5
     else
       add $MATRIX_LEFT $MATRIX_RIGHT
     fi
@@ -193,10 +207,25 @@ then
   then
     MATRIX_LEFT=$2
     MATRIX_RIGHT=$3
+
     if ! [ -s $MATRIX_LEFT ] || ! [ -r $MATRIX_LEFT ] || ! [ -s $MATRIX_RIGHT ] || ! [ -r $MATRIX_RIGHT ]
     then
       echo "ERROR: Argument count is 2 but file named by argument either argument is not readable" >&2
       exit 4
+    fi
+
+    dims $MATRIX_LEFT
+    left_rows=$rows
+    left_cols=$cols
+
+    dims $MATRIX_RIGHT
+    right_rows=$rows
+    right_cols=$cols
+
+    if [ $left_cols -ne $right_rows ]
+    then
+      echo "ERROR: Incompatible matrix dimensions" >&2
+      exit 5
     else
       add $MATRIX_LEFT $MATRIX_RIGHT
     fi
